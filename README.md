@@ -20,26 +20,22 @@ O projeto adota a metodologia **SDD (Specification-Driven Development)**, garant
 ## 📐 Estrutura e Engenharia (SDD)
 
 Os contratos de domínio e especificações técnicas estão versionados no diretório `docs/`:
-* [`docs/sdd/01-requirements.md`](docs/sdd/01-requirements.md): Requisitos Funcionais (RFs) rastreáveis dos Módulos 1 (IAM) e 2 (Catálogo).
-* [`docs/sdd/02-business-rules.md`](docs/sdd/02-business-rules.md): Invariantes, matriz RBAC e regras de herança de compatibilidade.
-* [`docs/database/ddl_modules_1_and_2.sql`](docs/database/ddl_modules_1_and_2.sql): DDL físico otimizado para MySQL 8 com chaves primárias `BIGINT UNSIGNED` e índices compostos.
+* [`docs/sdd/01-requirements.md`](docs/sdd/01-requirements.md): Requisitos Funcionais (RF-001 a RF-017) e Requisitos Não-Funcionais (RNFs).
+* [`docs/sdd/02-business-rules.md`](docs/sdd/02-business-rules.md): Invariantes de domínio, matriz RBAC e regras de integridade (RN-IAM, RN-CAT e RN-ORD).
+* [`docs/sdd/03-use-cases.md`](docs/sdd/03-use-cases.md): Casos de uso e critérios de aceite em formato BDD (UC-01 a UC-05).
+* [`docs/database/ddl_consolidated.sql`](docs/database/ddl_consolidated.sql): DDL físico unificado em MySQL 8 (InnoDB) para os Módulos 1, 2 e 3.
 
 ---
 
-## 🤖 Arquitetura Multi-Agente (Antigravity Kit)
+## 🗺️ Roadmap de Módulos (Fase 1: SDD & Planejamento)
 
-Este repositório integra um ambiente de desenvolvimento autônomo baseado em agentes em [`.agent/`](.agent/):
-* **20 Agentes Especialistas** cobrindo Engenharia de Software, Arquitetura de Dados, Segurança e QA.
-* **36 Módulos de Habilidade (Skills)** com regras formais de Clean Code, padrões de API e modelagem de banco.
-* **11 Workflows Automatizados** (`/plan`, `/orchestrate`, `/brainstorm`, etc.).
-* Documentação técnica completa disponível em [`.agent/ARCHITECTURE.md`](.agent/ARCHITECTURE.md).
-
----
-
-## 🗺️ Roadmap de Módulos
-
-- [x] **Módulo 1:** Identidade, contas e organizações (IAM & RBAC Híbrido)
-- [x] **Módulo 2:** Catálogo, Anúncios (`PRODUCT` vs `Listing`) e Catálogo Canônico de Veículos
-- [ ] **Módulo 3:** Contratos de API (RFC 7807) e Schemas Pydantic
-- [ ] **Módulo 4:** Motor de Busca Canônica e Compatibilidade Veicular
-- [ ] **Módulo 5:** Setup de infraestrutura Docker e configuração do SQLAlchemy/Alembic
+- [x] **Módulo 1: Identidade, IAM e Perfis**
+  * Cadastro de usuários, organizações (oficinas/lojas) e controle de acesso baseado em papéis (RBAC).
+- [x] **Módulo 2: Catálogo, Anúncios e Compatibilidade Canônica**
+  * Desacoplamento `PRODUCT` vs. `LISTING`, modelo canônico de veículos e busca relacional com herança de compatibilidade.
+- [x] **Módulo 3: Pedidos, Itens e Concorrência de Estoque**
+  * Ciclo de vida transacional de `ORDER`, histórico imutável de preços e prevenção de *overselling* via lock pessimista (`SELECT ... FOR UPDATE`).
+- [ ] **Módulo 4: Contratos de API & Schemas (Fase Atual)**
+  * Endpoints RESTful, validação com Pydantic V2, matriz de autorização e padronização RFC 7807 (*Problem Details*).
+- [ ] **Módulo 5: Setup de Infraestrutura & Banco**
+  * Docker Compose (FastAPI + MySQL 8), inicialização do SQLAlchemy e versionamento com Alembic.
